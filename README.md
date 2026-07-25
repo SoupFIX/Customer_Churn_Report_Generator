@@ -1,10 +1,8 @@
-# Customer Churn Analysis Workflow
-
-A complete, end‑to‑end pipeline for ingesting raw customer data, cleaning it, generating insightful visualizations, and producing an AI‑powered analysis report (Markdown → PDF). The workflow is modular, easy to extend, and designed for both quick exploratory analysis and production‑ready reporting.
-
 <p align="center">
   <img src="churn_report_heading.svg" alt="Churn Report Heading" width="100%"/>
 </p>
+
+A complete, end‑to‑end pipeline for ingesting raw customer data, cleaning it, generating insightful visualizations, and producing an AI‑powered analysis report (Markdown → PDF). The workflow is modular, easy to extend, and designed for both quick exploratory analysis and production‑ready reporting.
 
 <p align="center">
   <img src="data_pipeline_animation.svg" alt="Data Pipeline Animation" width="100%"/>
@@ -13,7 +11,7 @@ A complete, end‑to‑end pipeline for ingesting raw customer data, cleaning it
 
 **TARGET USERS**
 ----------------
-## **This is made for the retail sales,small shops,local shopkeepers,small vendors who maintain records of their sales can analyse and understand their business churn percentage and do better to maintain their business and keep growing**
+# This is made for the retail sales,small shops,local shopkeepers,small vendors who maintain records of their sales can analyse and understand their business churn percentage and do better to maintain their business and keep growing
 
 
 ---
