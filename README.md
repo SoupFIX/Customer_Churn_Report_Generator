@@ -2,6 +2,11 @@
 
 A complete, end‑to‑end pipeline for ingesting raw customer data, cleaning it, generating insightful visualizations, and producing an AI‑powered analysis report (Markdown → PDF). The workflow is modular, easy to extend, and designed for both quick exploratory analysis and production‑ready reporting.
 
+**TARGET USERS**
+----------------
+## **This is made for the retail sales,small shops,local shopkeepers,small vendors who maintain records of their sales can analyse and understand their business churn percentage and do better to maintain their business and keep growing**
+
+
 ---
 
 ## Project Structure
@@ -31,6 +36,7 @@ customer_churn_analysis/
 │   ├─ report_YYYY-MM-DD.pdf
 │   └─ ...
 |
+├─ churn_report_heading.svg        # Real Time Heading Display Unit
 ├─ CLAUDE.md                       # Claude Code usage guidelines for this repo 
 ├─ data_pipeline_animation.svg     # Real Time Animation
 ├─ README.md                       # This file
@@ -129,6 +135,7 @@ python scripts/pipeline.py <file1> [file2 ...] \
 ```
 
 ### `scripts/visual.py`
+
 
 **Purpose:** Produce a consistent, insight‑driven set of exploratory charts for any dataset with a binary target.
 
