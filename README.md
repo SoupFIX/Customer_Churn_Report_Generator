@@ -7,7 +7,7 @@ A complete, end‑to‑end pipeline for ingesting raw customer data, cleaning it
 </p>
 
 <p align="center">
-  <img src="data_pipeline_animation.svg" alt="Data Pipeline Animation" width="80%"/>
+  <img src="data_pipeline_animation.svg" alt="Data Pipeline Animation" width="100%"/>
 </p>
 
 
