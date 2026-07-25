@@ -11,7 +11,7 @@ A complete, end‑to‑end pipeline for ingesting raw customer data, cleaning it
 
 **TARGET USERS**
 ----------------
-# This is made for the retail sales,small shops,local shopkeepers,small vendors who maintain records of their sales can analyse and understand their business churn percentage and do better to maintain their business and keep growing
+### This is made for the retail sales,small shops,local shopkeepers,small vendors who maintain records of their sales can analyse and understand their business churn percentage and do better to maintain their business and keep growing
 
 
 ---
