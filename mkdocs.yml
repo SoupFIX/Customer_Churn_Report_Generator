@@ -1,4 +1,49 @@
-site_name: Your Project Name
+site_name: Customer Churn Report Generator
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: black
+      accent: deep purple
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+    - scheme: default
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+  font:
+    text: Inter
+    code: Fira Code
+  features:
+    - navigation.top
+    - navigation.tracking
+    - navigation.instant
+    - navigation.instant.progress
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - toc.follow
+    - header.autohide
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - attr_list
+  - md_in_html
+  - tables
+
 nav:
   - Home: index.md
-theme: readthedocs
