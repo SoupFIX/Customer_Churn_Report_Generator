@@ -1,0 +1,4 @@
+site_name: Your Project Name
+nav:
+  - Home: index.md
+theme: readthedocs
