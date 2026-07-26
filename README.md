@@ -125,25 +125,6 @@ python scripts/ai_model.py charts/ -o md files/report_2026-07-26.md
 python scripts/create_pdf.py
 # → final reports/report_2026-07-26.pdf
 ```
-
-After running the above, you will have:
-
-- `cleaned.csv` – tidy dataset ready for modeling.
-- `charts/<timestamp>_<rand>/` – PNG charts covering distributions, rates, correlations, etc.
-- `md files/report_<timestamp>.md` – detailed markdown analysis.
-- `final reports/report_<timestamp>.pdf` – printable, shareable report.
-
----
-
-## Outputs Explained
-
-| Output | Location | Description |
-|--------|----------|-------------|
-| **Cleaned data** | `cleaned.csv` (root) or user‑given path | Fully cleaned, analysis‑ready dataframe. |
-| **Charts** | `charts/charts_YYYY-MM-DD_XX/` | PNG visualizations: target distribution, category rates, numeric distributions, correlation heatmap, category combo. |
-| **Markdown report** | `md files/report_YYYY-MM-DD.md` (or custom) | Structured AI commentary per chart plus summary statistics. |
-| **PDF report** | `final reports/report_YYYY-MM-DD.pdf` | Print‑ready version of the markdown report. |
-
 ---
 ## 📜 License
 ```
