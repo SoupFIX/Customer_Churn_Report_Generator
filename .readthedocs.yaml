@@ -5,7 +5,7 @@ mkdocs:
 
 python:
   install:
-    - requirements: docs/requirements.txt
+    - requirements: requirements.txt
 build:
   os: ubuntu-24.04
   tools:
