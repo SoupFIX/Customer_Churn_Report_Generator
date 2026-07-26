@@ -80,22 +80,6 @@ The `ai_model.py` script reads this variable via `os.getenv("GEMINI_API_KEY")`.
 
 ---
 
-## Workflow Overview
-
-1. **Data Ingestion & Cleaning** – `scripts/pipeline.py`  
-   Loads one or more raw files (CSV, Excel, JSON), cleans column names, removes duplicates, normalizes text, parses dates, fixes data types, handles missing values, and caps outliers. Output: `cleaned.csv` (or a user‑specified path).
-
-2. **Visualization** – `scripts/visual.py`  
-   Reads the cleaned CSV, auto‑detects a binary target column (e.g., `churn`), identifies categorical and numeric features, and generates a standardized set of PNG charts (distribution, rates, correlations, etc.) stored in a timestamped sub‑folder under `charts/`.
-
-3. **AI‑Powered Chart Analysis** – `scripts/ai_model.py`  
-   Sends each chart image to Google’s Gemini vision model with a structured prompt, producing a consistent, business‑focused markdown report (`md files/report_YYYY-MM-DD.md`). The prompt forces a fixed schema (role, context, output format) so every chart receives comparable insights.
-
-4. **Report Generation** – `scripts/create_pdf.py`  
-   Converts the latest markdown report to a polished PDF (via `markdown-pdf`) and saves it under `final reports/`.
-
-The typical command‑line flow is:
-
 ```bash
 # 1️⃣ Clean the data
 python scripts/pipeline.py data/c1.csv data/customer_churn.xlsx -o cleaned.csv
@@ -114,24 +98,7 @@ All steps can be chained or run independently as needed.
 
 ---
 
-## Detailed Script Descriptions
 
-### `scripts/pipeline.py`
-
-**Purpose:** Robust ingestion and cleaning of heterogeneous data sources.
-
-**Key Features**
-- Supports `.csv`, `.xlsx/.xls`, `.json` (single or multiple files concatenated).
-- Automatic column‑name standardization (lowercase, underscore‑separated).
-- Duplicate removal, text cleaning (whitespace, placeholder → NaN).
-- Date‑column auto‑detect (or user‑specified via `--date-columns`).
-- Numeric type conversion from strings with commas.
-- Missing‑value handling:
-  - Drop columns missing > threshold % (default 50 %).
-  - Numeric imputation → median.
-  - Categorical imputation → mode (or `"unknown"`).
-- Outlier handling via IQR (default) or Z‑score capping (winsorizing).
-- Generates a detailed validation report printed to stdout.
 
 **CLI**
 ```bash
@@ -140,68 +107,6 @@ python scripts/pipeline.py <file1> [file2 ...] \
     [--date-columns col1 col2] \
     [--outlier-method iqr|zscore]
 ```
-
-### `scripts/visual.py`
-
-
-**Purpose:** Produce a consistent, insight‑driven set of exploratory charts for any dataset with a binary target.
-
-**How It Works**
-1. Loads the cleaned CSV (default `../cleaned data/cleaned.csv` relative to the script).
-2. Auto‑detects the target column (binary) using name hints (`churn`, `target`, etc.) or any 2‑unique‑value column.
-3. Splits columns into categorical (`≤10` unique values) and numeric (`>10` unique values, excluding ID‑like columns).
-4. Generates:
-   - Target distribution bar chart.
-   - Rate‑by‑category horizontal bars for each categorical feature (limited by `--max-category-charts`).
-   - Distribution histograms & boxplots for each numeric feature (limited by `--max-numeric-charts`).
-   - Correlation heatmap (numeric features + target flag).
-   - Top‑category interaction bar chart (first two categoricals).
-5. Saves charts to a timestamped folder under `charts/` (e.g., `charts_2026-07-26_WC`).
-
-**CLI**
-```bash
-python scripts/visual.py \
-    [--target Churn] \
-    [--max-category-charts 6] \
-    [--max-numeric-charts 6]
-```
-
-### `scripts/ai_model.py`
-
-**Purpose:** Turn raw chart images into a structured, business‑ready markdown analysis using Google Gemini.
-
-**Process**
-- Scans the `charts/` directory for the most recently modified subfolder.
-- Encodes each PNG to base64 and sends it to `gemini-3.5-flash-lite` with a **fixed prompt** that defines:
-  - Role: senior data analyst.
-  - Context: dataset description (target, feature types).
-  - Output schema: title, key insight, statistical note, business implication, recommended action.
-- Concatenates each chart’s analysis into a single markdown file (`md files/report_YYYY-MM-DD.md`).
-- Includes a summary section with overall positive rate and per‑category rates.
-
-**Requirements**
-- Set environment variable `GEMINI_API_KEY`.
-- Install `google-generativeai` (already in `requirements.txt`).
-
-**CLI**
-```bash
-python scripts/ai_model.py charts/ [--output md files/report.md]
-```
-
-### `scripts/create_pdf.py`
-
-**Purpose:** Convert the latest markdown report to a PDF for easy sharing/printing.
-
-- Uses the `markdown-pdf` package.
-- Looks for the most recent `.md` file in `md files/`.
-- Outputs a PDF with the same base name (timestamp) into `final reports/`.
-
-**CLI**
-```bash
-python scripts/create_pdf.py   # optional --input and --output arguments are supported in the script
-```
-
----
 
 ## Example Usage (End‑to‑End)
 
@@ -240,31 +145,6 @@ After running the above, you will have:
 | **PDF report** | `final reports/report_YYYY-MM-DD.pdf` | Print‑ready version of the markdown report. |
 
 ---
-
-## Extensibility
-
-- **New file formats:** Extend `DataIngestor.SUPPORTED_EXTENSIONS` and add a loader block in `pipeline.py`.
-- **Additional charts:** Add new functions in `visual.py` (e.g., scatter matrix, SHAP values) and call them in `main()`.
-- **Alternative LLMs:** Change `MODEL_NAME` and the prompt in `ai_model.py` to use other vision‑capable models (e.g., GPT‑4V, Claude 3).
-- **Custom report schema:** Edit the prompt template in `ai_model.py` to include extra sections like risk scores or ROI estimates.
-- **Configuration file:** Replace hardcoded thresholds (`--max-category-charts`, outlier method, missing‑value threshold) with a YAML/JSON config.
-
----
-
-## Troubleshooting
-
-| Symptom | Likely Cause | Fix |
-|---------|--------------|-----|
-|-----|
-| ModuleNotFoundError for `google-generativeai | 
-| `FileNotFoundError` for `cleaned.csv` | `visual.py` run before `pipeline.py` or wrong path. | Run `pipeline.py` first or set the correct path via editing `visual.py`’s `load_file` call. |
-| API key error | `GEMINI_API_KEY` not set. | Export the variable or create a `.env` file. |
-| No charts generated | Target column not detected. | Use `--target <column_name>` to specify the binary column explicitly. |
-| PDF generation fails | Missing `pandoc` or `wkhtmltopdf` (backend of `markdown-pdf`). | Install required system dependencies (`brew install pandoc` / `apt-get install pandoc`). |
-| Outlier handling removes too many rows | Threshold too strict for small datasets. | Adjust `--outlier-method` or change the IQR multiplier by editing `handle_outliers`. |
-
----
-
 ## 📜 License
 ```
 PERSONAL USE & LEARNING LICENSE
