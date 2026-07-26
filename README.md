@@ -98,16 +98,6 @@ All steps can be chained or run independently as needed.
 
 ---
 
-
-
-**CLI**
-```bash
-python scripts/pipeline.py <file1> [file2 ...] \
-    [--output cleaned.csv] \
-    [--date-columns col1 col2] \
-    [--outlier-method iqr|zscore]
-```
-
 ## Example Usage (End‑to‑End)
 
 ```bash
